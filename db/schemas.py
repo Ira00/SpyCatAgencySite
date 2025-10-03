@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 from typing import List, Optional
 
 
@@ -22,8 +22,7 @@ class Target(TargetBase):
     id: int
     mission_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class SpyCatBase(BaseModel):
@@ -44,8 +43,7 @@ class SpyCatUpdate(BaseModel):
 class SpyCat(SpyCatBase):
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class MissionBase(BaseModel):
@@ -55,7 +53,7 @@ class MissionBase(BaseModel):
 class MissionCreate(MissionBase):
     targets: List[TargetCreate] = Field(..., min_length=1, max_length=3)
 
-    @validator("targets")
+    @field_validator("targets")
     def validate_targets_count(cls, v):
         if len(v) < 1 or len(v) > 3:
             raise ValueError("Mission must have between 1 and 3 targets")
@@ -71,8 +69,7 @@ class Mission(MissionBase):
     cat_id: Optional[int] = None
     targets: List[Target] = []
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class MissionAssign(BaseModel):

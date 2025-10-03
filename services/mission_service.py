@@ -1,12 +1,6 @@
 from sqlalchemy.orm import Session
-from db.models import Mission, SpyCat, Target
-from db.schemas import (
-    Mission,
-    MissionAssign,
-    MissionCreate,
-    MissionUpdate,
-    TargetUpdate,
-)
+from db.models import Mission, Target, SpyCat
+from db.schemas import MissionCreate, MissionUpdate, MissionAssign, TargetUpdate
 
 
 def create_mission(db: Session, mission: MissionCreate) -> Mission:
@@ -85,9 +79,7 @@ def assign_cat_to_mission(db: Session, mission_id: int, assignment: MissionAssig
 
     existing_mission = (
         db.query(Mission)
-        .filter(
-            Mission.cat_id == assignment.cat_id, Mission.complete == False
-        )
+        .filter(Mission.cat_id == assignment.cat_id, Mission.complete == False)
         .first()
     )
 
