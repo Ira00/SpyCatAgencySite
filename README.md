@@ -1,6 +1,27 @@
 # Spy Cat Agency API
 [Link to Swagger UI](https://lfj7rc-8000.csb.app/docs#/)
 
+## Endpoints
+
+| Method | Path             | Description                                         | Response Model |
+| ------ | ---------------- | --------------------------------------------------- | -------------- |
+| POST   | `/cats/`         | Create a new spy cat, validates breed via TheCatAPI | `SpyCat`       |
+| GET    | `/cats/`         | List all spy cats                                   | `List[SpyCat]` |
+| GET    | `/cats/{cat_id}` | Get a spy cat by ID                                 | `SpyCat`       |
+| PATCH  | `/cats/{cat_id}` | Update a spy cat (currently only salary)            | `SpyCat`       |
+| DELETE | `/cats/{cat_id}` | Delete a spy cat by ID                              | None (204)     |
+
+| Method | Path                                         | Description                                               | Response Model  |
+| ------ | -------------------------------------------- | --------------------------------------------------------- | --------------- |
+| POST   | `/missions/`                                 | Create a new mission with targets                         | `Mission`       |
+| GET    | `/missions/`                                 | List all missions                                         | `List[Mission]` |
+| GET    | `/missions/{mission_id}`                     | Get a mission by ID                                       | `Mission`       |
+| PATCH  | `/missions/{mission_id}`                     | Update mission (e.g., complete status)                    | `Mission`       |
+| DELETE | `/missions/{mission_id}`                     | Delete a mission                                          | None (204)      |
+| PATCH  | `/missions/{mission_id}/assign`              | Assign a spy cat to a mission                             | `Mission`       |
+| PATCH  | `/missions/{mission_id}/targets/{target_id}` | Update a target’s notes or completion status in a mission | `Target`        |
+
+
 ## Overview
 
 A RESTful API system for managing spy cats, their missions, and surveillance targets. The application enables the Spy Cat Agency to track their operative cats, assign missions, and manage mission targets with data collection capabilities. Built with FastAPI and SQLAlchemy, it integrates with TheCatAPI for breed validation.
@@ -57,3 +78,6 @@ A RESTful API system for managing spy cats, their missions, and surveillance tar
   - File-based storage (`spy_cats.db`)
   - Configured with `check_same_thread=False` for FastAPI compatibility
   - Auto-creates tables on application startup
+  - 
+### Tests Run
+<img width="462" height="197" alt="image" src="https://github.com/user-attachments/assets/3e14c0d6-99bc-4195-ab0b-f0e50c67b27c" />
