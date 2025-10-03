@@ -14,6 +14,7 @@ app = FastAPI(title="Spy Cat Agency API", version="1.0.0")
 
 CAT_API_URL = "https://api.thecatapi.com/v1/breeds"
 
+
 def validate_breed(breed: str) -> bool:
     try:
         response = requests.get(CAT_API_URL)
@@ -26,6 +27,7 @@ def validate_breed(breed: str) -> bool:
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail=f"Unable to validate breed with TheCatAPI: {str(e)}"
         )
+
 
 @app.post("/cats", response_model=schemas.SpyCat, status_code=status.HTTP_201_CREATED)
 def create_spy_cat(cat: schemas.SpyCatCreate, db: Session = Depends(get_db)):
@@ -41,10 +43,12 @@ def create_spy_cat(cat: schemas.SpyCatCreate, db: Session = Depends(get_db)):
     db.refresh(db_cat)
     return db_cat
 
+
 @app.get("/cats", response_model=List[schemas.SpyCat])
 def list_spy_cats(db: Session = Depends(get_db)):
     cats = db.query(models.SpyCat).all()
     return cats
+
 
 @app.get("/cats/{cat_id}", response_model=schemas.SpyCat)
 def get_spy_cat(cat_id: int, db: Session = Depends(get_db)):
@@ -55,6 +59,7 @@ def get_spy_cat(cat_id: int, db: Session = Depends(get_db)):
             detail=f"Spy cat with id {cat_id} not found"
         )
     return cat
+
 
 @app.patch("/cats/{cat_id}", response_model=schemas.SpyCat)
 def update_spy_cat(cat_id: int, cat_update: schemas.SpyCatUpdate, db: Session = Depends(get_db)):
@@ -70,6 +75,7 @@ def update_spy_cat(cat_id: int, cat_update: schemas.SpyCatUpdate, db: Session = 
     db.refresh(cat)
     return cat
 
+
 @app.delete("/cats/{cat_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_spy_cat(cat_id: int, db: Session = Depends(get_db)):
     cat = db.query(models.SpyCat).filter(models.SpyCat.id == cat_id).first()
@@ -82,6 +88,7 @@ def delete_spy_cat(cat_id: int, db: Session = Depends(get_db)):
     db.delete(cat)
     db.commit()
     return None
+
 
 @app.post("/missions", response_model=schemas.Mission, status_code=status.HTTP_201_CREATED)
 def create_mission(mission: schemas.MissionCreate, db: Session = Depends(get_db)):
@@ -101,10 +108,12 @@ def create_mission(mission: schemas.MissionCreate, db: Session = Depends(get_db)
     db.refresh(db_mission)
     return db_mission
 
+
 @app.get("/missions", response_model=List[schemas.Mission])
 def list_missions(db: Session = Depends(get_db)):
     missions = db.query(models.Mission).all()
     return missions
+
 
 @app.get("/missions/{mission_id}", response_model=schemas.Mission)
 def get_mission(mission_id: int, db: Session = Depends(get_db)):
@@ -115,6 +124,7 @@ def get_mission(mission_id: int, db: Session = Depends(get_db)):
             detail=f"Mission with id {mission_id} not found"
         )
     return mission
+
 
 @app.patch("/missions/{mission_id}", response_model=schemas.Mission)
 def update_mission(mission_id: int, mission_update: schemas.MissionUpdate, db: Session = Depends(get_db)):
@@ -149,6 +159,7 @@ def update_mission(mission_id: int, mission_update: schemas.MissionUpdate, db: S
     db.refresh(mission)
     return mission
 
+
 @app.delete("/missions/{mission_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_mission(mission_id: int, db: Session = Depends(get_db)):
     mission = db.query(models.Mission).filter(models.Mission.id == mission_id).first()
@@ -167,6 +178,7 @@ def delete_mission(mission_id: int, db: Session = Depends(get_db)):
     db.delete(mission)
     db.commit()
     return None
+
 
 @app.patch("/missions/{mission_id}/assign", response_model=schemas.Mission)
 def assign_cat_to_mission(mission_id: int, assignment: schemas.MissionAssign, db: Session = Depends(get_db)):
@@ -199,6 +211,7 @@ def assign_cat_to_mission(mission_id: int, assignment: schemas.MissionAssign, db
     db.commit()
     db.refresh(mission)
     return mission
+
 
 @app.patch("/missions/{mission_id}/targets/{target_id}", response_model=schemas.Target)
 def update_target(
@@ -240,6 +253,7 @@ def update_target(
     db.refresh(target)
     return target
 
+
 @app.get("/")
 def root():
     return {
@@ -247,3 +261,4 @@ def root():
         "docs": "/docs",
         "version": "1.0.0"
     }
+    
