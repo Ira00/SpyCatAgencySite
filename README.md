@@ -78,3 +78,6 @@ A RESTful API system for managing spy cats, their missions, and surveillance tar
   - File-based storage (`spy_cats.db`)
   - Configured with `check_same_thread=False` for FastAPI compatibility
   - Auto-creates tables on application startup
+  - 
+### Tests Run
+<img width="462" height="197" alt="image" src="https://github.com/user-attachments/assets/3e14c0d6-99bc-4195-ab0b-f0e50c67b27c" />
