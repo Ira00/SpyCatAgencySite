@@ -3,12 +3,12 @@ from sqlalchemy.orm import Session
 from typing import List
 import requests
 
-import models
+from db.models import Base
 from db.database import engine, get_db
 from routers import cats, missions
 
 
-models.Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Spy Cat Agency API", version="1.0.0")
 app.include_router(cats.router)

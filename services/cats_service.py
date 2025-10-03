@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
-import models
+from db.models import SpyCat
 from db.schemas import SpyCat, SpyCatCreate, SpyCatUpdate
 
 
-def create_spy_cat(db: Session, cat: SpyCatCreate) -> models.SpyCat:
-    db_cat = models.SpyCat(**cat.model_dump())
+def create_spy_cat(db: Session, cat: SpyCatCreate) -> SpyCat:
+    db_cat = SpyCat(**cat.model_dump())
     db.add(db_cat)
     db.commit()
     db.refresh(db_cat)
@@ -12,11 +12,11 @@ def create_spy_cat(db: Session, cat: SpyCatCreate) -> models.SpyCat:
 
 
 def list_spy_cats(db: Session):
-    return db.query(models.SpyCat).all()
+    return db.query(SpyCat).all()
 
 
 def get_spy_cat(db: Session, cat_id: int):
-    return db.query(models.SpyCat).filter(models.SpyCat.id == cat_id).first()
+    return db.query(SpyCat).filter(SpyCat.id == cat_id).first()
 
 
 def update_spy_cat(db: Session, cat_id: int, cat_update: SpyCatUpdate):

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-import models
+from db.models import Mission, SpyCat, Target
 from db.schemas import (
     Mission,
     MissionAssign,
@@ -9,14 +9,14 @@ from db.schemas import (
 )
 
 
-def create_mission(db: Session, mission: MissionCreate) -> models.Mission:
-    db_mission = models.Mission(complete=mission.complete)
+def create_mission(db: Session, mission: MissionCreate) -> Mission:
+    db_mission = Mission(complete=mission.complete)
     db.add(db_mission)
     db.commit()
     db.refresh(db_mission)
 
     for target_data in mission.targets:
-        db_target = models.Target(mission_id=db_mission.id, **target_data.model_dump())
+        db_target = Target(mission_id=db_mission.id, **target_data.model_dump())
         db.add(db_target)
 
     db.commit()
@@ -25,11 +25,11 @@ def create_mission(db: Session, mission: MissionCreate) -> models.Mission:
 
 
 def list_missions(db: Session):
-    return db.query(models.Mission).all()
+    return db.query(Mission).all()
 
 
 def get_mission(db: Session, mission_id: int):
-    return db.query(models.Mission).filter(models.Mission.id == mission_id).first()
+    return db.query(Mission).filter(Mission.id == mission_id).first()
 
 
 def update_mission(db: Session, mission_id: int, mission_update: MissionUpdate):
@@ -44,11 +44,11 @@ def update_mission(db: Session, mission_id: int, mission_update: MissionUpdate):
         else:
             if mission.cat_id is not None:
                 existing_mission = (
-                    db.query(models.Mission)
+                    db.query(Mission)
                     .filter(
-                        models.Mission.cat_id == mission.cat_id,
-                        models.Mission.complete == False,
-                        models.Mission.id != mission_id,
+                        Mission.cat_id == mission.cat_id,
+                        Mission.complete == False,
+                        Mission.id != mission_id,
                     )
                     .first()
                 )
@@ -79,14 +79,14 @@ def assign_cat_to_mission(db: Session, mission_id: int, assignment: MissionAssig
     if not mission:
         return None, "mission_not_found"
 
-    cat = db.query(models.SpyCat).filter(models.SpyCat.id == assignment.cat_id).first()
+    cat = db.query(SpyCat).filter(SpyCat.id == assignment.cat_id).first()
     if not cat:
         return None, "cat_not_found"
 
     existing_mission = (
-        db.query(models.Mission)
+        db.query(Mission)
         .filter(
-            models.Mission.cat_id == assignment.cat_id, models.Mission.complete == False
+            Mission.cat_id == assignment.cat_id, Mission.complete == False
         )
         .first()
     )
@@ -108,8 +108,8 @@ def update_target(
         return None, "mission_not_found"
 
     target = (
-        db.query(models.Target)
-        .filter(models.Target.id == target_id, models.Target.mission_id == mission_id)
+        db.query(Target)
+        .filter(Target.id == target_id, Target.mission_id == mission_id)
         .first()
     )
 
