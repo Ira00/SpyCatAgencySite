@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from db.models import SpyCat
-from db.schemas import SpyCat, SpyCatCreate, SpyCatUpdate
+from db.schemas import SpyCatCreate, SpyCatUpdate
 
 
 def create_spy_cat(db: Session, cat: SpyCatCreate) -> SpyCat:
