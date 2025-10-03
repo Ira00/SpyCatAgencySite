@@ -1,6 +1,18 @@
 # Spy Cat Agency API
 [Link to Swagger UI](https://lfj7rc-8000.csb.app/docs#/)
 
+## Endpoints
+
+GET /cats - List Spy Cats
+POST /cats - Create Spy Cat
+GET /cats/{cat_id} - Get Spy Cat
+PATCH /cats/{cat_id} - Update Spy Cat
+DELETE /cats/{cat_id} - Delete Spy Cat
+GET /missions - List Missions
+POST /missions - Create Mission
+GET /missions/{mission_id} - Get Mission
+DELETE /missions/{mission_id} - Delete Mission
+
 ## Overview
 
 A RESTful API system for managing spy cats, their missions, and surveillance targets. The application enables the Spy Cat Agency to track their operative cats, assign missions, and manage mission targets with data collection capabilities. Built with FastAPI and SQLAlchemy, it integrates with TheCatAPI for breed validation.
