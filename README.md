@@ -3,23 +3,24 @@
 
 ## Endpoints
 
-GET /cats - List Spy Cats
+| Method | Path             | Description                                         | Response Model |
+| ------ | ---------------- | --------------------------------------------------- | -------------- |
+| POST   | `/cats/`         | Create a new spy cat, validates breed via TheCatAPI | `SpyCat`       |
+| GET    | `/cats/`         | List all spy cats                                   | `List[SpyCat]` |
+| GET    | `/cats/{cat_id}` | Get a spy cat by ID                                 | `SpyCat`       |
+| PATCH  | `/cats/{cat_id}` | Update a spy cat (currently only salary)            | `SpyCat`       |
+| DELETE | `/cats/{cat_id}` | Delete a spy cat by ID                              | None (204)     |
 
-POST /cats - Create Spy Cat
+| Method | Path                                         | Description                                               | Response Model  |
+| ------ | -------------------------------------------- | --------------------------------------------------------- | --------------- |
+| POST   | `/missions/`                                 | Create a new mission with targets                         | `Mission`       |
+| GET    | `/missions/`                                 | List all missions                                         | `List[Mission]` |
+| GET    | `/missions/{mission_id}`                     | Get a mission by ID                                       | `Mission`       |
+| PATCH  | `/missions/{mission_id}`                     | Update mission (e.g., complete status)                    | `Mission`       |
+| DELETE | `/missions/{mission_id}`                     | Delete a mission                                          | None (204)      |
+| PATCH  | `/missions/{mission_id}/assign`              | Assign a spy cat to a mission                             | `Mission`       |
+| PATCH  | `/missions/{mission_id}/targets/{target_id}` | Update a target’s notes or completion status in a mission | `Target`        |
 
-GET /cats/{cat_id} - Get Spy Cat
-
-PATCH /cats/{cat_id} - Update Spy Cat
-
-DELETE /cats/{cat_id} - Delete Spy Cat
-
-GET /missions - List Missions
-
-POST /missions - Create Mission
-
-GET /missions/{mission_id} - Get Mission
-
-DELETE /missions/{mission_id} - Delete Mission
 
 ## Overview
 
