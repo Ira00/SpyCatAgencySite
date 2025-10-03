@@ -1,5 +1,6 @@
 # Spy Cat Agency API
-[Link to Swagger UI](https://lfj7rc-8000.csb.app/docs#/)
+[Back-end site](https://2825k4-8000.csb.app)
+[Swagger UI](https://2825k4-8000.csb.app/docs)
 
 ## Endpoints
 
